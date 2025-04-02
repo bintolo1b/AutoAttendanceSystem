@@ -12,4 +12,20 @@ public class Authority {
     @ManyToOne
     @JoinColumn(name = "username", nullable = false)
     private User user;
+
+    public AuthorityId getId() {
+        return id;
+    }
+
+    public void setId(AuthorityId id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
