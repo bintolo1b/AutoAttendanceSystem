@@ -2,8 +2,12 @@ package com.pbl5.autoattendance.model;
 
 import com.pbl5.autoattendance.embedded.StudentClassId;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class StudentClass {
     @EmbeddedId
     private StudentClassId id;

@@ -1,12 +1,19 @@
 package com.pbl5.autoattendance.service;
 
 import com.pbl5.autoattendance.model.StudentAttendance;
+import com.pbl5.autoattendance.repository.StudentAttendanceRepository;
 import org.springframework.stereotype.Service;
 
-public interface StudentAttendanceService {
+@Service
+public class StudentAttendanceService{
 
-    StudentAttendance saveAttendance(StudentAttendance attendance);
+    private final StudentAttendanceRepository studentAttendanceRepository;
 
+    public StudentAttendanceService(StudentAttendanceRepository studentAttendanceRepository) {
+        this.studentAttendanceRepository = studentAttendanceRepository;
+    }
 
-
+    public StudentAttendance saveAttendance(StudentAttendance attendance) {
+        return studentAttendanceRepository.save(attendance);
+    }
 }

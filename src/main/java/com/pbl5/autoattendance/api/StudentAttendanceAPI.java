@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/attendance")
-public class StudentAttendanceController {
+public class StudentAttendanceAPI {
 
     private final StudentAttendanceService service;
 
@@ -23,7 +23,7 @@ public class StudentAttendanceController {
 
     private final AttendanceRepository attendanceRepository;
 
-    public StudentAttendanceController(StudentAttendanceService service, StudentRepository studentRepository, AttendanceRepository attendanceRepository) {
+    public StudentAttendanceAPI(StudentAttendanceService service, StudentRepository studentRepository, AttendanceRepository attendanceRepository) {
         this.service = service;
         this.studentRepository = studentRepository;
         this.attendanceRepository = attendanceRepository;

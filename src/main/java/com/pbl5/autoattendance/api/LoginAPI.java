@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/login")
-public class LoginController {
+public class LoginAPI {
 
     private final UserRepository userRepository;
 
-    public LoginController(UserRepository userRepository) {
+    public LoginAPI(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

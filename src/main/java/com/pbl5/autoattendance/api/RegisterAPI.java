@@ -14,14 +14,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/register")
-public class RegisterController {
+public class RegisterAPI {
 
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final StudentRepository studentRepository;
 
-    public RegisterController(UserRepository userRepository, 
-                            AuthorityRepository authorityRepository, StudentRepository studentRepository) {
+    public RegisterAPI(UserRepository userRepository,
+                       AuthorityRepository authorityRepository, StudentRepository studentRepository) {
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
         this.studentRepository = studentRepository;
