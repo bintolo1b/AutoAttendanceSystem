@@ -40,51 +40,50 @@ public class AutoattendanceApplication {
 
 	@Bean
 	public CommandLineRunner commandLineRunner(){
-		return args -> { System.out.println("Hello World"); };
-//		return args -> {
-//
-//			ObjectMapper objectMapper = new ObjectMapper();
-//			Path jsonPath = Paths.get("identity_embeddings.json");
-//			File jsonFile = jsonPath.toFile();
-//			Map<String, Object> identityData = objectMapper.readValue(jsonFile, Map.class);
-//
-//			List<String> usernameList = new ArrayList<>(List.of("trung", "tai", "minh_hoang", "trung_phong"));
-//			for (int i = 0  ; i < usernameList.size() ; i++) {
-//				User user = User.builder()
-//						.username(usernameList.get(i))
-//						.password("12345")
-//						.enabled(true)
-//						.build();
-//
-//				// Save user first to get the ID
-//				userRepository.save(user);
-//
-//				// Create authority for the user
-//				Authority authority = new Authority();
-//				AuthorityId authorityId = new AuthorityId();
-//				authorityId.setUsername(user.getUsername());
-//				authorityId.setAuthority("ROLE_USER");
-//				authority.setId(authorityId);
-//				authority.setUser(user);
-//				authorityRepository.save(authority);
-//
-//				Student student = Student.builder()
-//						.name(usernameList.get(i))
-//						.phoneNumber("1234567890")
-//						.email("abc"+i+"@sv1.udn.vn")
-//						.user(user)
-//						.build();
-//
-//				String featureVectorJson = objectMapper.writeValueAsString(identityData.get(usernameList.get(i)));
-//
-//				StudentVector studentVector = StudentVector.builder()
-//								.featureVector(featureVectorJson)
-//								.student(student)
-//								.build();
-//
-//				studentRepository.save(student);
-//				studentVectorRepository.save(studentVector);
-//			}
-//		};
+		return args -> {
+
+			ObjectMapper objectMapper = new ObjectMapper();
+			Path jsonPath = Paths.get("identity_embeddings.json");
+			File jsonFile = jsonPath.toFile();
+			Map<String, Object> identityData = objectMapper.readValue(jsonFile, Map.class);
+
+			List<String> usernameList = new ArrayList<>(List.of("trung", "tai", "minh_hoang", "trung_phong"));
+			for (int i = 0  ; i < usernameList.size() ; i++) {
+				User user = User.builder()
+						.username(usernameList.get(i))
+						.password("12345")
+						.enabled(true)
+						.build();
+
+				// Save user first to get the ID
+				userRepository.save(user);
+
+				// Create authority for the user
+				Authority authority = new Authority();
+				AuthorityId authorityId = new AuthorityId();
+				authorityId.setUsername(user.getUsername());
+				authorityId.setAuthority("ROLE_USER");
+				authority.setId(authorityId);
+				authority.setUser(user);
+				authorityRepository.save(authority);
+
+				Student student = Student.builder()
+						.name(usernameList.get(i))
+						.phoneNumber("1234567890")
+						.email("abc"+i+"@sv1.udn.vn")
+						.user(user)
+						.build();
+
+				String featureVectorJson = objectMapper.writeValueAsString(identityData.get(usernameList.get(i)));
+
+				StudentVector studentVector = StudentVector.builder()
+								.featureVector(featureVectorJson)
+								.student(student)
+								.build();
+
+				studentRepository.save(student);
+				studentVectorRepository.save(studentVector);
+			}
+		};
 	}
 }

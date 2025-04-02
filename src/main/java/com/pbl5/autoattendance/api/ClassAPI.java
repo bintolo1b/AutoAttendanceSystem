@@ -14,18 +14,18 @@ import java.util.Map;
 @RequestMapping("/api/classes")
 public class ClassAPI {
 
-    @Autowired
-    private com.pbl5.autoattendance.service.ClassService classService;
-
-    @PostMapping
-    public ResponseEntity<Object> addClass(@RequestBody Class classData) {
-        try {
-            Class savedClass = classService.saveClass(classData);
-            return new ResponseEntity<>(savedClass, HttpStatus.CREATED);
-        } catch (Exception e) {
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Không thể thêm lớp học: " + e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @Autowired
+//    private com.pbl5.autoattendance.service.ClassService classService;
+//
+//    @PostMapping
+//    public ResponseEntity<Object> addClass(@RequestBody Class classData) {
+//        try {
+//            Class savedClass = classService.saveClass(classData);
+//            return new ResponseEntity<>(savedClass, HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            Map<String, String> response = new HashMap<>();
+//            response.put("message", "Không thể thêm lớp học: " + e.getMessage());
+//            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+//        }
+//    }
 }
