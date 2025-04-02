@@ -2,17 +2,14 @@ package com.pbl5.autoattendance.model;
 
 import com.pbl5.autoattendance.embedded.AuthorityId;
 import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "authorities")
-@NoArgsConstructor
 public class Authority {
     @EmbeddedId
     private AuthorityId id;
 
     @MapsId("username")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "username", nullable = false)
     private User user;
 
