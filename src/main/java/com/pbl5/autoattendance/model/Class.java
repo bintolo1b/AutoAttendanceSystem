@@ -19,4 +19,7 @@ public class Class {
     @ManyToOne
     @JoinColumn(nullable = false, name = "teacher_id")
     private Teacher teacher;
+
+    @OneToMany(mappedBy = "aClass")
+    private List<LessonInWeek> lessonsInWeek;
 }
