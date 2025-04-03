@@ -157,8 +157,8 @@ public class AutoattendanceApplication {
 					Lesson thursdayLesson = new Lesson();
 					thursdayLesson.setAClass(aClass);
 					thursdayLesson.setLessonDate(thursdayDate);
-					thursdayLesson.setStartTime(LocalTime.of(0, 0)); // 12h trưa
-					thursdayLesson.setEndTime(LocalTime.of(3, 0)); // 16h chiều
+					thursdayLesson.setStartTime(LocalTime.of(9, 0)); // 12h trưa
+					thursdayLesson.setEndTime(LocalTime.of(16, 0)); // 16h chiều
 					thursdayLesson.setRoom("A20" + (aClass.getId() % 5 + 1));
 					
 					// Đánh dấu các buổi học đã qua là đã hoàn thành
