@@ -1,6 +1,7 @@
 package com.pbl5.autoattendance;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pbl5.autoattendance.embedded.AttendanceCheckId;
 import com.pbl5.autoattendance.embedded.AuthorityId;
 import com.pbl5.autoattendance.embedded.StudentClassId;
 import com.pbl5.autoattendance.model.*;
@@ -39,6 +40,8 @@ public class AutoattendanceApplication {
 	private LessonRepository lessonRepository;
 	@Autowired
 	private StudentClassRepository studentClassRepository;
+	@Autowired
+	private AttendanceCheckRepository attendanceCheckRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AutoattendanceApplication.class, args);
@@ -93,6 +96,7 @@ public class AutoattendanceApplication {
 			Class firstClass = classRepository.findById(1).orElse(null);
 			if (firstClass != null) {
 				for (Student student : students) {
+					// Thêm sinh viên vào lớp
 					StudentClass studentClass = new StudentClass();
 					StudentClassId studentClassId = new StudentClassId();
 					studentClassId.setStudentId(student.getId());
@@ -172,6 +176,28 @@ public class AutoattendanceApplication {
 					lessonRepository.save(thursdayLesson);
 				}
 			}
+			
+			// Tự động tạo dữ liệu AttendanceCheck cho mỗi sinh viên và buổi học sau khi đã có đầy đủ dữ liệu
+			if (firstClass != null) {
+				List<Lesson> lessons = lessonRepository.findByaClass_Id(firstClass.getId());
+				for (Student student : students) {
+					for (Lesson lesson : lessons) {
+						AttendanceCheck attendanceCheck = new AttendanceCheck();
+						AttendanceCheckId attendanceCheckId = new AttendanceCheckId();
+						attendanceCheckId.setStudentId(student.getId());
+						attendanceCheckId.setLessonId(lesson.getId());
+						attendanceCheck.setId(attendanceCheckId);
+						attendanceCheck.setCheckinDate(null); // Mặc định là null
+						attendanceCheck.setImgPath(""); // Đường dẫn ảnh mặc định
+						attendanceCheck.setLesson(lesson);
+						attendanceCheck.setStudent(student);
+						attendanceCheckRepository.save(attendanceCheck);
+					}
+				}
+			}
+
+
+
 		};
 	}
 

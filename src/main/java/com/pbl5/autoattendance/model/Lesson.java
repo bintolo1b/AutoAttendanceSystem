@@ -2,6 +2,8 @@ package com.pbl5.autoattendance.model;
 
 import jakarta.persistence.*;
 import java.time.LocalTime;
+import java.util.List;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,4 +40,8 @@ public class Lesson {
 
     @Column
     private String notes; // Ghi chú cho buổi học
+
+    @OneToMany(mappedBy = "lesson")
+    private List<AttendanceCheck> attendanceChecks;
+
 }

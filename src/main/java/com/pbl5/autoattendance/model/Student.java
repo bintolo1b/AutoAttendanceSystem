@@ -29,10 +29,13 @@ public class Student {
     @JoinColumn(name = "username", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "student")
-    private List<StudentAttendance> studentAttendances;
+//    @OneToMany(mappedBy = "student")
+//    private List<StudentAttendance> studentAttendances;
 
     @OneToMany(mappedBy = "student")
     private List<StudentClass> studentClasses;
+
+    @OneToMany(mappedBy = "student")
+    private List<AttendanceCheck> attendanceChecks;
 
 }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface LessonRepository extends JpaRepository<Lesson, Integer> {
     public List<Lesson> findByaClass_Id(Integer classId);
+
 }
