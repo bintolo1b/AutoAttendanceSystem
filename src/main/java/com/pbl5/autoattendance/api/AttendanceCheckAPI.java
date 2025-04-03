@@ -18,7 +18,7 @@ public class AttendanceCheckAPI {
     @Autowired
     private AttendanceCheckService attendanceCheckService;
     
-    @PostMapping("/check")
+    @PostMapping("/get_status")
     public ResponseEntity<AttendanceCheckDTO> getAttendanceCheck(@RequestBody Map<String, Integer> request) {
         Integer lessonId = request.get("lessonId");
         Integer studentId = request.get("studentId");
@@ -40,6 +40,8 @@ public class AttendanceCheckAPI {
         AttendanceCheckDTO dto = convertToDTO(attendanceCheck);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
+    //
     
     private AttendanceCheckDTO convertToDTO(AttendanceCheck attendanceCheck) {
         AttendanceCheckDTO dto = new AttendanceCheckDTO();
