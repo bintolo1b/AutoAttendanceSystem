@@ -22,7 +22,6 @@ public class AttendanceCheckAPI {
     public ResponseEntity<AttendanceCheckDTO> getAttendanceCheck(@RequestBody Map<String, Integer> request) {
         Integer lessonId = request.get("lessonId");
         Integer studentId = request.get("studentId");
-        
         if (lessonId == null || studentId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
