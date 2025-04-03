@@ -16,4 +16,8 @@ public class AttendanceCheckService {
     public AttendanceCheck getAttendanceCheckById(AttendanceCheckId id) {
         return attendanceCheckRepository.findById(id).orElse(null);
     }
+
+    public AttendanceCheck saveAttendanceCheck(AttendanceCheck attendanceCheck) {
+        return attendanceCheckRepository.save(attendanceCheck);
+    }
 }
