@@ -7,12 +7,8 @@ import lombok.Setter;
 @Setter
 public class StudentDTO {
     private Integer id;
-
     private String name;
-
     private String phoneNumber;
-
     private String email;
-
     private String username;
 }

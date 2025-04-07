@@ -20,7 +20,7 @@ public class Student {
     private String name;
 
     @Column(length = 10)
-    private String phoneNumber;
+    private String phone;
 
     @Column(unique = true)
     private String email;
@@ -29,8 +29,6 @@ public class Student {
     @JoinColumn(name = "username", nullable = false)
     private User user;
 
-//    @OneToMany(mappedBy = "student")
-//    private List<StudentAttendance> studentAttendances;
 
     @OneToMany(mappedBy = "student")
     private List<StudentClass> studentClasses;

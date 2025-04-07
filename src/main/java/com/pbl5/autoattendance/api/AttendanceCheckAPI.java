@@ -15,9 +15,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/attendance")
 public class AttendanceCheckAPI {
-    
-    @Autowired
-    private AttendanceCheckService attendanceCheckService;
+    private final AttendanceCheckService attendanceCheckService;
+
+    public AttendanceCheckAPI(AttendanceCheckService attendanceCheckService) {
+        this.attendanceCheckService = attendanceCheckService;
+    }
 
     @PostMapping("/check")
     public ResponseEntity<AttendanceCheckDTO> checkAttendance(@RequestBody Map<String, Integer> request) {

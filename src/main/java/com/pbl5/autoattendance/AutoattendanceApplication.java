@@ -230,7 +230,7 @@ public class AutoattendanceApplication {
 	private Student createAndSaveStudent(User user, String name, int index) {
 		Student student = Student.builder()
 				.name(name)
-				.phoneNumber("1234567890")
+				.phone("1234567890")
 				.email("abc" + index + "@sv1.udn.vn")
 				.user(user)
 				.build();

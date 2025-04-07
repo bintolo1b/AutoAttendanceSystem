@@ -12,4 +12,8 @@ spring:
       hibernate:
         format_sql: true
     database: mysql
+  app:
+    jwtSecret: mySecretkey1231738qwfqwfqowuhfnoqwuhfqwoifnjqwipfjpi
+    accessTokenExpirationMs: 60000
+    refreshTokenExpirationMs: 604800000
 

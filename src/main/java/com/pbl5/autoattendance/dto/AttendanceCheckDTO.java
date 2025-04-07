@@ -10,13 +10,8 @@ import java.time.LocalDateTime;
 @Setter
 public class AttendanceCheckDTO {
     private AttendanceCheckId id;
-
     private LocalDateTime checkinDate;
-
     private String imgPath;
-
-
     private Integer lessonId;
-
     private Integer studentId;
 }

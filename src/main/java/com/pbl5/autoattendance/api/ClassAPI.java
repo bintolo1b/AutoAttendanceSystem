@@ -5,16 +5,12 @@ import com.pbl5.autoattendance.dto.StudentDTO;
 import com.pbl5.autoattendance.model.Class;
 import com.pbl5.autoattendance.model.Student;
 import com.pbl5.autoattendance.model.StudentClass;
-import com.pbl5.autoattendance.model.Teacher;
 import com.pbl5.autoattendance.service.ClassService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -66,7 +62,7 @@ public class ClassAPI {
         StudentDTO dto = new StudentDTO();
         dto.setId(student.getId());
         dto.setName(student.getName());
-        dto.setPhoneNumber(student.getPhoneNumber());
+        dto.setPhoneNumber(student.getPhone());
         dto.setEmail(student.getEmail());
         if (student.getUser() != null) {
             dto.setUsername(student.getUser().getUsername());
