@@ -7,21 +7,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Getter
 @Setter
-public class ClassDTO {
-    private Integer id;
-
-    private LocalDateTime createdAt;
-
+public class ClassWithLessonDTO {
     @NotNull
     @NotBlank
-    private String name;
+    String name;
 
     @NotNull
     @Min(1)
-    private Integer numberOfWeeks;
-
-    private Integer teacherId;
+    Integer numberOfWeeks;
+    private Map<String, LessonTimeRangeDTO> schedule;
 }

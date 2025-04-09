@@ -3,6 +3,7 @@ package com.pbl5.autoattendance.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
@@ -10,7 +11,7 @@ import java.time.LocalTime;
 public class LessonDTO {
     private Integer id;
     private Integer class_id;
-    private java.util.Date lessonDate; // Ngày cụ thể của buổi học
+    private LocalDate lessonDate; // Ngày cụ thể của buổi học
     private LocalTime startTime;
     private LocalTime endTime;
     private String room;

@@ -1,16 +1,22 @@
 package com.pbl5.autoattendance.api;
 
 import com.pbl5.autoattendance.dto.ClassDTO;
+import com.pbl5.autoattendance.dto.ClassWithLessonDTO;
 import com.pbl5.autoattendance.dto.StudentDTO;
+import com.pbl5.autoattendance.model.*;
 import com.pbl5.autoattendance.model.Class;
-import com.pbl5.autoattendance.model.Student;
-import com.pbl5.autoattendance.model.StudentClass;
 import com.pbl5.autoattendance.service.ClassService;
+import com.pbl5.autoattendance.service.LessonService;
+import com.pbl5.autoattendance.service.TeacherService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -18,9 +24,13 @@ import java.util.stream.Collectors;
 public class ClassAPI {
     
     private final ClassService classService;
+    private final TeacherService teacherService;
+    private final LessonService lessonService;
     
-    public ClassAPI(ClassService classService) {
+    public ClassAPI(ClassService classService, TeacherService teacherService, LessonService lessonService) {
         this.classService = classService;
+        this.teacherService = teacherService;
+        this.lessonService = lessonService;
     }
     
     @GetMapping
@@ -57,6 +67,21 @@ public class ClassAPI {
         ClassDTO classDTO = convertToDTO(classEntity);
         return new ResponseEntity<>(classDTO, HttpStatus.OK);
     }
+
+    @PostMapping
+    public ResponseEntity<?> createNewClass(@RequestBody @Valid ClassWithLessonDTO classWithLessonDTO) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Teacher teacher = teacherService.getTeacherByUsername(username);
+        if (teacher == null){
+            Map<String, String> errors = new HashMap<>();
+            errors.put("message", "Teacher not found");
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+
+        Class newClass = classService.crateNewClass(classWithLessonDTO, teacher);
+        List<Lesson> lessons = lessonService.createLessons(classWithLessonDTO.getSchedule(), newClass, newClass.getNumberOfWeeks());
+        return new ResponseEntity<>(convertToDTO(newClass), HttpStatus.CREATED);
+    }
     
     private StudentDTO convertToStudentDTO(Student student) {
         StudentDTO dto = new StudentDTO();
@@ -73,6 +98,8 @@ public class ClassAPI {
     private ClassDTO convertToDTO(Class classEntity) {
         ClassDTO dto = new ClassDTO();
         dto.setId(classEntity.getId());
+        dto.setCreatedAt(classEntity.getCreatedAt());
+        dto.setNumberOfWeeks(classEntity.getNumberOfWeeks());
         dto.setName(classEntity.getName());
         if (classEntity.getTeacher() != null) {
             dto.setTeacherId(classEntity.getTeacher().getId());

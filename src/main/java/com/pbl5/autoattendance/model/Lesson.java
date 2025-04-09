@@ -1,19 +1,20 @@
 package com.pbl5.autoattendance.model;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Data
 @NoArgsConstructor
 @Setter
 @Getter
+@Builder
+@AllArgsConstructor
 public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +25,7 @@ public class Lesson {
     private Class aClass;
 
     @Column(nullable = false)
-    private java.util.Date lessonDate; // Ngày cụ thể của buổi học
+    private LocalDate lessonDate; // Ngày cụ thể của buổi học
 
     @Column(nullable = false)
     private LocalTime startTime;

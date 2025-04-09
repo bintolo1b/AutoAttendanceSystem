@@ -1,14 +1,17 @@
 package com.pbl5.autoattendance.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Class {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +21,7 @@ public class Class {
     private String name;
 
     @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private java.util.Date createdAt;
+    private LocalDateTime createdAt;
     
     @Column(name = "number_of_weeks")
     private Integer numberOfWeeks;

@@ -34,6 +34,7 @@ public class AuthenticationAPI {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest, HttpServletResponse httpServletResponse) {
+        System.out.println("hi");
         Authentication authentication;
         try {
             authentication = authenticationManager

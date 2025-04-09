@@ -50,6 +50,7 @@ public class SecurityConfig {
 
         http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
         http.csrf(AbstractHttpConfigurer::disable);
+        http.cors(cors -> cors.configure(http)); // Thêm cấu hình CORS
         http.addFilterBefore(authenticationJwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
