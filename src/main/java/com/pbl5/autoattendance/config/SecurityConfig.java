@@ -33,12 +33,12 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        System.out.println("hello");
         http.authorizeHttpRequests((requests) ->
                 requests.requestMatchers("/signin").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/refresh").permitAll()
-                        .requestMatchers(("/register")).permitAll()
+                        .requestMatchers("/register").permitAll()
+                        .requestMatchers("/api/student-vectors").permitAll()
                         .anyRequest().authenticated());
         http.sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -8,6 +8,8 @@ import com.pbl5.autoattendance.model.Teacher;
 import com.pbl5.autoattendance.model.User;
 import com.pbl5.autoattendance.repository.AuthorityRepository;
 import com.pbl5.autoattendance.repository.UserRepository;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -108,4 +110,7 @@ public class UserService {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
