@@ -21,4 +21,8 @@ public class StudentService {
     public Student getStudentByUsername(String username) {
         return studentRepository.findByUser_Username(username);
     }
+
+    public Student findByEmail(String email) {
+        return studentRepository.findByEmail(email);
+    }
 }

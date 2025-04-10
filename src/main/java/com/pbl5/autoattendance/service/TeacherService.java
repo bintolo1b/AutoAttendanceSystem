@@ -34,4 +34,8 @@ public class TeacherService {
         }
         return teacherRepository.findByUser(user).orElse(null);
     }
+
+    public Teacher findTeacherByEmail(String email) {
+        return teacherRepository.findByEmail(email);
+    }
 }

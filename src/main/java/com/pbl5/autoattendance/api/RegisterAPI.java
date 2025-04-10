@@ -27,7 +27,6 @@ public class RegisterAPI {
 
     @PostMapping
     public ResponseEntity<?> register(@RequestBody @Valid RegisterDTO registerDTO) {
-        System.out.println("hẻeeee");
         return userService.createNewUser(registerDTO);
     }
 }

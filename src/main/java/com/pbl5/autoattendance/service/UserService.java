@@ -65,6 +65,20 @@ public class UserService {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
+        if (isTeacher && teacherService.findTeacherByEmail(registerDTO.getEmail()) != null) {
+            message = "Email is already exist";
+            response.put("message", message);
+            response.put("status", "failure");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        if (isStudent && studentService.findByEmail(registerDTO.getEmail()) != null) {
+            message = "Email is already exist";
+            response.put("message", message);
+            response.put("status", "failure");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
         User newUser = User.builder()
                 .username(registerDTO.getUsername())
                 .password(passwordEncoder.encode(registerDTO.getPassword()))
