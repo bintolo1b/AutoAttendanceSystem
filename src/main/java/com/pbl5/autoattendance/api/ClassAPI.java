@@ -7,10 +7,12 @@ import com.pbl5.autoattendance.model.*;
 import com.pbl5.autoattendance.model.Class;
 import com.pbl5.autoattendance.service.ClassService;
 import com.pbl5.autoattendance.service.LessonService;
+import com.pbl5.autoattendance.service.StudentService;
 import com.pbl5.autoattendance.service.TeacherService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,11 +28,13 @@ public class ClassAPI {
     private final ClassService classService;
     private final TeacherService teacherService;
     private final LessonService lessonService;
-    
-    public ClassAPI(ClassService classService, TeacherService teacherService, LessonService lessonService) {
+    private final StudentService studentService;
+
+    public ClassAPI(ClassService classService, TeacherService teacherService, LessonService lessonService, StudentService studentService) {
         this.classService = classService;
         this.teacherService = teacherService;
         this.lessonService = lessonService;
+        this.studentService = studentService;
     }
     
     @GetMapping
@@ -68,7 +72,33 @@ public class ClassAPI {
         return new ResponseEntity<>(classDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/student/my-classes")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<?> getAllClassesOfStudent(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Student student = studentService.getStudentByUsername(username);
+        List<ClassDTO> classes = classService.getAllClasessOfStudent(student)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(classes, HttpStatus.OK);
+    }
+
+    @GetMapping("/teacher/my-classes")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<?> getAllClassesOfTeacher(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Teacher teacher = teacherService.getTeacherByUsername(username);
+        List<ClassDTO> classes = classService.getAllClassesOfTeacher(teacher)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(classes, HttpStatus.OK);
+    }
+
     @PostMapping
+    @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<?> createNewClass(@RequestBody @Valid ClassWithLessonDTO classWithLessonDTO) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Teacher teacher = teacherService.getTeacherByUsername(username);
@@ -81,6 +111,16 @@ public class ClassAPI {
         Class newClass = classService.crateNewClass(classWithLessonDTO, teacher);
         List<Lesson> lessons = lessonService.createLessons(classWithLessonDTO.getSchedule(), newClass, newClass.getNumberOfWeeks());
         return new ResponseEntity<>(convertToDTO(newClass), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{classId}")
+    public ResponseEntity<?> getClassById(@PathVariable Integer classId) {
+        Class aclass = classService.getClassById(classId);
+        if (aclass == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        ClassDTO classDTO = convertToDTO(aclass);
+        return new ResponseEntity<>(classDTO, HttpStatus.OK);
     }
     
     private StudentDTO convertToStudentDTO(Student student) {

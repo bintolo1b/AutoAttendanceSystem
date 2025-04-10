@@ -189,7 +189,7 @@ public class AutoattendanceApplication {
 //						AttendanceCheck attendanceCheck = new AttendanceCheck();
 //						AttendanceCheckId attendanceCheckId = new AttendanceCheckId();
 //						attendanceCheckId.setStudentId(student.getId());
-//						attendanceCheckId.setLessonId(lesson.getId());
+//						attendanceCheckId.setLessonId(lesson.getId());	
 //						attendanceCheck.setId(attendanceCheckId);
 //						attendanceCheck.setCheckinDate(null); // Mặc định là null
 //						attendanceCheck.setImgPath(""); // Đường dẫn ảnh mặc định

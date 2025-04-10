@@ -2,14 +2,16 @@ package com.pbl5.autoattendance.model;
 
 import com.pbl5.autoattendance.embedded.AttendanceCheckId;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AttendanceCheck {
     @EmbeddedId
     private AttendanceCheckId id;
@@ -29,4 +31,7 @@ public class AttendanceCheck {
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
+    @Column(length = 15)
+    private String status;
 }

@@ -37,7 +37,7 @@ public class UserService {
     public ResponseEntity<Map<String, Object>> createNewUser(RegisterDTO registerDTO) {
         String message = "New user created!";
         Map<String, Object> response = new HashMap<>();
-
+        System.out.println("here");
         if (userRepository.findByUsername(registerDTO.getUsername()) != null) {
             message = "Username is already exist";
             response.put("message", message);

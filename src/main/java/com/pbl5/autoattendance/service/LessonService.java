@@ -23,7 +23,7 @@ public class LessonService {
     }
 
     public List<Lesson> getLessonsByClassId(Integer classId) {
-        return lessonRepository.findByaClass_IdOrderByLessonDateAsc(classId);
+        return lessonRepository.findLessonBeforeDate(classId, LocalDate.now());
     }
 
     public Lesson getLessonById(int id) {

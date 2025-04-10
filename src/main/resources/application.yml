@@ -14,6 +14,6 @@ spring:
     database: mysql
   app:
     jwtSecret: mySecretkey1231738qwfqwfqowuhfnoqwuhfqwoifnjqwipfjpi
-    accessTokenExpirationMs: 60000
+    accessTokenExpirationMs: 3600000
     refreshTokenExpirationMs: 604800000
 
