@@ -27,10 +27,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        System.out.println("AuthTokenFilter called for URI: " + request.getRequestURI());
+//        System.out.println("AuthTokenFilter called for URI: " + request.getRequestURI());
         try {
             String accessToken = jwtUtils.parseAccessTokenFromCookies(request);
-            System.out.println("access token in cookie "+ accessToken);
+//            System.out.println("access token in cookie "+ accessToken);
 
             if (accessToken != null && jwtUtils.validateJwtToken(accessToken)) {
                 processValidAccessToken(request, accessToken);

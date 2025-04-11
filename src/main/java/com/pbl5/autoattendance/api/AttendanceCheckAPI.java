@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @RestController
@@ -96,11 +99,25 @@ public class AttendanceCheckAPI {
                 .lessonId(attendanceCheckDTO.getLessonId())
                 .build();
         AttendanceCheck attendanceCheck = attendanceCheckService.findById(id);
-        if (attendanceCheck == null)
+        if (attendanceCheck == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+
         attendanceCheck.setStatus(attendanceCheckDTO.getStatus());
         attendanceCheck.setImgPath(attendanceCheckDTO.getImgPath());
+
         attendanceCheck.setCheckinDate(attendanceCheckDTO.getCheckinDate());
+        LocalDateTime checkinDate = attendanceCheckDTO.getCheckinDate();
+
+        // Chuyển LocalDateTime thành ZonedDateTime (giả sử checkinDate là UTC)
+        ZonedDateTime utcZonedDateTime = checkinDate.atZone(ZoneId.of("UTC"));
+
+        // Chuyển từ UTC sang giờ Việt Nam (UTC+7)
+        ZonedDateTime vietnamZonedDateTime = utcZonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Ho_Chi_Minh"));
+
+        attendanceCheck.setCheckinDate(vietnamZonedDateTime.toLocalDateTime());
+
         attendanceCheckService.update(attendanceCheck);
         return new ResponseEntity<>(HttpStatus.OK);
     }
