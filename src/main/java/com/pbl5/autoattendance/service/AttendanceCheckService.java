@@ -8,16 +8,28 @@ import com.pbl5.autoattendance.model.Lesson;
 import com.pbl5.autoattendance.model.Student;
 import com.pbl5.autoattendance.repository.AttendanceCheckRepository;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AttendanceCheckService {
-    private final AttendanceCheckRepository attendanceCheckRepository;
+    AttendanceCheckRepository attendanceCheckRepository;
+    StudentService studentService;
 
-    public AttendanceCheckService(AttendanceCheckRepository attendanceCheckRepository) {
-        this.attendanceCheckRepository = attendanceCheckRepository;
+    public AttendanceCheck getAttendanceCheckByLessionid(int lessionid) {
+        return getAttendanceCheckById( AttendanceCheckId.builder()
+                .lessonId(lessionid)
+                .studentId(studentService.getCurrentStudent().getId())
+                .build());
     }
 
     public AttendanceCheck getAttendanceCheckById(AttendanceCheckId id) {

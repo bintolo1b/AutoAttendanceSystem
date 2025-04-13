@@ -9,6 +9,7 @@ import com.pbl5.autoattendance.service.AttendanceCheckService;
 import com.pbl5.autoattendance.service.ClassService;
 import com.pbl5.autoattendance.service.StudentClassService;
 import com.pbl5.autoattendance.service.StudentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/student-class")
 public class StudentClassAPI {
     private final StudentClassService studentClassService;
@@ -26,12 +28,6 @@ public class StudentClassAPI {
     private final ClassService classService;
     private final AttendanceCheckService attendanceCheckService;
 
-    public StudentClassAPI(StudentClassService studentClassService, StudentService studentService, ClassService classService, AttendanceCheckService attendanceCheckService) {
-        this.studentClassService = studentClassService;
-        this.studentService = studentService;
-        this.classService = classService;
-        this.attendanceCheckService = attendanceCheckService;
-    }
 
     @PreAuthorize("hasRole('STUDENT')")
     @PostMapping("/join/{classId}")

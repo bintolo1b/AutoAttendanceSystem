@@ -10,6 +10,7 @@ import com.pbl5.autoattendance.repository.AuthorityRepository;
 import com.pbl5.autoattendance.repository.UserRepository;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -28,19 +30,12 @@ public class UserService {
     private final StudentService studentService;
     private final TeacherService teacherService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityService authorityService, StudentService studentService, TeacherService teacherService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.authorityService = authorityService;
-        this.studentService = studentService;
-        this.teacherService = teacherService;
-    }
 
     public ResponseEntity<Map<String, Object>> createNewUser(RegisterDTO registerDTO) {
         String message = "New user created!";
         Map<String, Object> response = new HashMap<>();
         System.out.println("here");
-        if (userRepository.findByUsername(registerDTO.getUsername()) != null) {
+        if (userRepository.existsByUsername(registerDTO.getUsername()) ) {
             message = "Username is already exist";
             response.put("message", message);
             response.put("status", "failure");

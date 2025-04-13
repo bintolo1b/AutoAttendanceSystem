@@ -1,5 +1,6 @@
 package com.pbl5.autoattendance.api;
 
+import com.pbl5.autoattendance.dto.ApiResponse;
 import com.pbl5.autoattendance.dto.AttendanceCheckDTO;
 import com.pbl5.autoattendance.embedded.AttendanceCheckId;
 import com.pbl5.autoattendance.model.AttendanceCheck;
@@ -7,7 +8,12 @@ import com.pbl5.autoattendance.model.Lesson;
 import com.pbl5.autoattendance.service.AttendanceCheckService;
 import com.pbl5.autoattendance.service.ClassService;
 import com.pbl5.autoattendance.service.LessonService;
+import com.pbl5.autoattendance.service.StudentService;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,17 +27,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/api/attendance")
 public class AttendanceCheckAPI {
-    private final AttendanceCheckService attendanceCheckService;
-    private final ClassService classService;
-    private final LessonService lessonService;
+    AttendanceCheckService attendanceCheckService;
+    LessonService lessonService;
 
-    public AttendanceCheckAPI(AttendanceCheckService attendanceCheckService, ClassService classService, LessonService lessonService) {
-        this.attendanceCheckService = attendanceCheckService;
-        this.classService = classService;
-        this.lessonService = lessonService;
-    }
 
     @PostMapping("/check")
     public ResponseEntity<AttendanceCheckDTO> checkAttendance(@RequestBody Map<String, Integer> request) {
@@ -91,9 +93,20 @@ public class AttendanceCheckAPI {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @PostMapping("/{lessionId}")
+    private ApiResponse<AttendanceCheck> checkAttendent(@PathVariable int lessionId ){
+        System.out.println("checkAttendent");
+        AttendanceCheck result = attendanceCheckService.getAttendanceCheckByLessionid(lessionId);
+        return ApiResponse.<AttendanceCheck>builder()
+                .code(1000)
+                .result(result)
+                .build();
+    }
+
     @PostMapping("/update")
     @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<?> updateCheckAttendance(@Valid @RequestBody AttendanceCheckDTO attendanceCheckDTO){
+        System.out.println("updateCheckAttendance");
         AttendanceCheckId id = AttendanceCheckId.builder()
                 .studentId(attendanceCheckDTO.getStudentId())
                 .lessonId(attendanceCheckDTO.getLessonId())
@@ -133,4 +146,6 @@ public class AttendanceCheckAPI {
         dto.setStatus(attendanceCheck.getStatus());
         return dto;
     }
+
+
 }

@@ -108,7 +108,7 @@ public class ClassAPI {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
-        Class newClass = classService.crateNewClass(classWithLessonDTO, teacher);
+        Class newClass = classService.createNewClass(classWithLessonDTO, teacher);
         List<Lesson> lessons = lessonService.createLessons(classWithLessonDTO.getSchedule(), newClass, newClass.getNumberOfWeeks());
         return new ResponseEntity<>(convertToDTO(newClass), HttpStatus.CREATED);
     }
@@ -127,7 +127,7 @@ public class ClassAPI {
         StudentDTO dto = new StudentDTO();
         dto.setId(student.getId());
         dto.setName(student.getName());
-        dto.setPhoneNumber(student.getPhone());
+        dto.setPhone(student.getPhone());
         dto.setEmail(student.getEmail());
         if (student.getUser() != null) {
             dto.setUsername(student.getUser().getUsername());

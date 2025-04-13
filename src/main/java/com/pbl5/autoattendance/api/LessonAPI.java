@@ -3,6 +3,7 @@ package com.pbl5.autoattendance.api;
 import com.pbl5.autoattendance.dto.LessonDTO;
 import com.pbl5.autoattendance.model.Lesson;
 import com.pbl5.autoattendance.service.LessonService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,15 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/lessons")
 public class LessonAPI {
     
     private final LessonService lessonService;
-    
-    public LessonAPI(LessonService lessonService) {
-        this.lessonService = lessonService;
-    }
-    
+
     @GetMapping("/class/{classId}")
     public ResponseEntity<List<LessonDTO>> getLessonsByClassId(@PathVariable Integer classId) {
         List<Lesson> lessons = lessonService.getLessonsByClassId(classId);
