@@ -36,11 +36,12 @@ public class AttendanceCheckAPI {
 
 
     @PostMapping("/check")
-    public ResponseEntity<AttendanceCheckDTO> checkAttendance(@RequestBody Map<String, Integer> request) {
-        Integer lessonId = request.get("lessonId");
-        Integer studentId = request.get("studentId");
+    public ResponseEntity<AttendanceCheckDTO> checkAttendance(@RequestBody Map<String, Object> request) {
+        Integer lessonId = (Integer) request.get("lessonId");
+        Integer studentId = (Integer) request.get("studentId");
+        String image_path = (String) request.get("image_path");
         
-        if (lessonId == null || studentId == null) {
+        if (lessonId == null || studentId == null || image_path == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
@@ -53,6 +54,8 @@ public class AttendanceCheckAPI {
         if (attendanceCheck == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        attendanceCheck.setImgPath(image_path);
 
         attendanceCheck.setCheckinDate(LocalDateTime.now());
         Lesson lesson = lessonService.getLessonById(lessonId);

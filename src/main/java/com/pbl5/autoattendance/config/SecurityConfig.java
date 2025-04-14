@@ -38,6 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/refresh").permitAll()
                         .requestMatchers("/register").permitAll()
+                        .requestMatchers("/api/attendance/check").permitAll()
                         .requestMatchers("/api/student-vectors").permitAll()
                         .anyRequest().authenticated());
         http.sessionManagement(session ->
