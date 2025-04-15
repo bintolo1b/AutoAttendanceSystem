@@ -14,4 +14,6 @@ import java.io.Serializable;
 public class AttendanceCheckId implements Serializable {
     private Integer studentId;
     private Integer lessonId;
+
+
 }
