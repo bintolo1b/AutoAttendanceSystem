@@ -94,7 +94,7 @@ public class AttendanceCheckAPI {
     }
 
     @PostMapping("/{lessionId}")
-    private ApiResponse<AttendanceCheck> checkAttendent(@PathVariable int lessionId ){
+    public ApiResponse<AttendanceCheck> checkAttendent(@PathVariable int lessionId ){
         System.out.println("checkAttendent");
         AttendanceCheck result = attendanceCheckService.getAttendanceCheckByLessionid(lessionId);
         return ApiResponse.<AttendanceCheck>builder()

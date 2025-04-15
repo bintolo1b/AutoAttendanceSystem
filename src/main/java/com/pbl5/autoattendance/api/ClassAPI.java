@@ -108,6 +108,7 @@ public class ClassAPI {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
+
         Class newClass = classService.createNewClass(classWithLessonDTO, teacher);
         List<Lesson> lessons = lessonService.createLessons(classWithLessonDTO.getSchedule(), newClass, newClass.getNumberOfWeeks());
         return new ResponseEntity<>(convertToDTO(newClass), HttpStatus.CREATED);
