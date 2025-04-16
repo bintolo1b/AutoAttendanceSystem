@@ -2,6 +2,7 @@ package com.pbl5.autoattendance.service;
 
 import com.pbl5.autoattendance.dto.AttendanceCheckDTO;
 import com.pbl5.autoattendance.embedded.AttendanceCheckId;
+import com.pbl5.autoattendance.mapper.IAttendanceCheckMapper;
 import com.pbl5.autoattendance.model.AttendanceCheck;
 import com.pbl5.autoattendance.model.Class;
 import com.pbl5.autoattendance.model.Lesson;
@@ -24,12 +25,15 @@ import java.util.List;
 public class AttendanceCheckService {
     AttendanceCheckRepository attendanceCheckRepository;
     StudentService studentService;
+    IAttendanceCheckMapper attendanceCheckMapper;
 
-    public AttendanceCheck getAttendanceCheckByLessionid(int lessionid) {
-        return getAttendanceCheckById( AttendanceCheckId.builder()
-                .lessonId(lessionid)
-                .studentId(studentService.getCurrentStudent().getId())
-                .build());
+
+    public AttendanceCheckDTO getAttendanceCheckByLessionid(int lessionid) {
+        return attendanceCheckMapper.toAttendanceCheckDTO(
+                getAttendanceCheckById( AttendanceCheckId.builder()
+                        .lessonId(lessionid)
+                        .studentId(studentService.getCurrentStudent().getId())
+                        .build()));
     }
 
     public AttendanceCheck getAttendanceCheckById(AttendanceCheckId id) {

@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/student-class")
@@ -37,6 +40,14 @@ public class StudentClassAPI {
         Class aclass = classService.getClassById(classId);
         if (aclass == null)
             return new ResponseEntity<>("Class not found", HttpStatus.NOT_FOUND);
+
+        if (studentClassService.checkScheduleConflict(student, aclass)){
+            Map<String, String> errors = new HashMap<>();
+            errors.put("message", "Conflict with old class");
+            return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
+        }
+
+
         StudentClassId id = StudentClassId.builder().classId(aclass.getId()).studentId(student.getId()).build();
         StudentClass studentClass = StudentClass.builder()
                 .id(id)
