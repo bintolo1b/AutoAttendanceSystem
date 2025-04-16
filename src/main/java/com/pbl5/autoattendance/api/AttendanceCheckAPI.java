@@ -93,11 +93,11 @@ public class AttendanceCheckAPI {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @PostMapping("/{lessionId}")
-    private ApiResponse<AttendanceCheck> checkAttendent(@PathVariable int lessionId ){
+    @GetMapping("/result/{lessionId}")
+    public ApiResponse<AttendanceCheckDTO> checkAttendent(@PathVariable int lessionId ){
         System.out.println("checkAttendent");
-        AttendanceCheck result = attendanceCheckService.getAttendanceCheckByLessionid(lessionId);
-        return ApiResponse.<AttendanceCheck>builder()
+        AttendanceCheckDTO result = attendanceCheckService.getAttendanceCheckByLessionid(lessionId);
+        return ApiResponse.<AttendanceCheckDTO>builder()
                 .code(1000)
                 .result(result)
                 .build();
