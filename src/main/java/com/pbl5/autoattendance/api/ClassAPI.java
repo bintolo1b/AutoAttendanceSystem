@@ -108,6 +108,13 @@ public class ClassAPI {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
+        if (classService.checkScheduleConflict(teacher, classWithLessonDTO)){
+            Map<String, String> errors = new HashMap<>();
+            errors.put("message", "Schedule conflict");
+            return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
+        }
+
+
         Class newClass = classService.createNewClass(classWithLessonDTO, teacher);
         List<Lesson> lessons = lessonService.createLessons(classWithLessonDTO.getSchedule(), newClass, newClass.getNumberOfWeeks());
         return new ResponseEntity<>(convertToDTO(newClass), HttpStatus.CREATED);

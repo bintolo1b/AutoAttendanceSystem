@@ -93,8 +93,8 @@ public class AttendanceCheckAPI {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/result/{lessionId}")
-    public ApiResponse<AttendanceCheckDTO> checkAttendent(@PathVariable int lessionId ){
+    @PostMapping("/{lessionId}")
+    private ApiResponse<AttendanceCheckDTO> checkAttendent(@PathVariable int lessionId ){
         System.out.println("checkAttendent");
         AttendanceCheckDTO result = attendanceCheckService.getAttendanceCheckByLessionid(lessionId);
         return ApiResponse.<AttendanceCheckDTO>builder()
