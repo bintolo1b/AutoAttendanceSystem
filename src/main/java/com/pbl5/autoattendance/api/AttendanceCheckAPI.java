@@ -36,12 +36,11 @@ public class AttendanceCheckAPI {
 
 
     @PostMapping("/check")
-    public ResponseEntity<AttendanceCheckDTO> checkAttendance(@RequestBody Map<String, Object> request) {
-        Integer lessonId = (Integer) request.get("lessonId");
-        Integer studentId = (Integer) request.get("studentId");
-        String image_path = (String) request.get("image_path");
+    public ResponseEntity<AttendanceCheckDTO> checkAttendance(@RequestBody Map<String, Integer> request) {
+        Integer lessonId = request.get("lessonId");
+        Integer studentId = request.get("studentId");
         
-        if (lessonId == null || studentId == null || image_path == null) {
+        if (lessonId == null || studentId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
@@ -54,8 +53,6 @@ public class AttendanceCheckAPI {
         if (attendanceCheck == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        attendanceCheck.setImgPath(image_path);
 
         attendanceCheck.setCheckinDate(LocalDateTime.now());
         Lesson lesson = lessonService.getLessonById(lessonId);
@@ -97,10 +94,10 @@ public class AttendanceCheckAPI {
     }
 
     @PostMapping("/{lessionId}")
-    public ApiResponse<AttendanceCheck> checkAttendent(@PathVariable int lessionId ){
+    private ApiResponse<AttendanceCheckDTO> checkAttendent(@PathVariable int lessionId ){
         System.out.println("checkAttendent");
-        AttendanceCheck result = attendanceCheckService.getAttendanceCheckByLessionid(lessionId);
-        return ApiResponse.<AttendanceCheck>builder()
+        AttendanceCheckDTO result = attendanceCheckService.getAttendanceCheckByLessionid(lessionId);
+        return ApiResponse.<AttendanceCheckDTO>builder()
                 .code(1000)
                 .result(result)
                 .build();
