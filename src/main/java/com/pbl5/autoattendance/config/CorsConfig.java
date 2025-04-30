@@ -20,5 +20,5 @@ public class CorsConfig {
                 // KHÔNG được dùng .allowCredentials(true) khi dùng "*"
             }
         };
-    }
+    }   
 }

@@ -1,5 +1,12 @@
 package com.pbl5.autoattendance.dto;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Builder
+@Getter
+@Setter
 public class TeacherDTO {
     private Integer id;
     private String name;

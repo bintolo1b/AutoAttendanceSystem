@@ -22,6 +22,7 @@ public class StudentAPI {
     StudentService studentService;
 
     @GetMapping
+    @PreAuthorize("hasRole('STUDENT')")
     public ApiResponse<StudentDTO> getCurrentStudent(){
         StudentDTO result = studentService.getCurrentStudent();
         return ApiResponse.<StudentDTO>builder()
