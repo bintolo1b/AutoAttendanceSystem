@@ -55,6 +55,7 @@ public class AuthenticationAPI {
 
         jwtUtils.addCookie(httpServletResponse, "accessToken", accessToken, 60 * 60 * 24);
         jwtUtils.addCookie(httpServletResponse, "refreshToken", refreshToken, 60 * 60 * 24);
+        System.out.println(refreshToken);
 
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
