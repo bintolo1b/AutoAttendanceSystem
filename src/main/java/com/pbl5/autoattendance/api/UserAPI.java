@@ -21,7 +21,7 @@ public class UserAPI {
         Map<String, String> map = new HashMap<>();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String filePath = Paths.get(System.getProperty("user.dir"), "uploads", "avatars", username + ".jpg").toString();
-        System.out.println(filePath);
+
         File file = new File(filePath);
         if (file.exists()){
             map.put("Path", "/avatars/"+username+".jpg");

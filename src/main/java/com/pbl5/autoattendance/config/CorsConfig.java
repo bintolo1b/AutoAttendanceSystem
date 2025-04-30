@@ -13,12 +13,15 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173")
+                        .allowedOrigins(
+                                "http://192.168.1.10:5173",
+                                "http://192.168.60.15:5173",
+                                "http://192.168.180.164:5173"
+                        )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
-                // KHÔNG được dùng .allowCredentials(true) khi dùng "*"
             }
         };
-    }   
+    }
 }
