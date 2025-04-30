@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8080
 
 spring:
   datasource:
@@ -7,8 +7,7 @@ spring:
     url: "jdbc:mysql://localhost:3306/auto_attendance_pbl5?createDatabaseIfNotExist=true"
     username: root
 
-#    password: Trantai25022004
-    password: 110204
+    password: Trantai25022004
 #    password: 110204
 #    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
