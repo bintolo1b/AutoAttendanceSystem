@@ -1,5 +1,6 @@
 package com.pbl5.autoattendance.service;
 
+import com.pbl5.autoattendance.dto.TeacherDTO;
 import com.pbl5.autoattendance.model.Teacher;
 import com.pbl5.autoattendance.model.User;
 import com.pbl5.autoattendance.repository.TeacherRepository;
@@ -11,8 +12,8 @@ import java.util.Optional;
 
 @Service
 public class TeacherService {
-    private TeacherRepository teacherRepository;
-    private UserRepository userRepository;
+    private final TeacherRepository teacherRepository;
+    private final UserRepository userRepository;
 
     public TeacherService(TeacherRepository teacherRepository, UserRepository userRepository) {
         this.teacherRepository = teacherRepository;
@@ -37,5 +38,13 @@ public class TeacherService {
 
     public Teacher findTeacherByEmail(String email) {
         return teacherRepository.findByEmail(email);
+    }
+
+    public void updateTeacher(TeacherDTO teacherDTO, String username) {
+        Teacher teacher = getTeacherByUsername(username);
+        teacher.setEmail(teacherDTO.getEmail());
+        teacher.setName(teacherDTO.getName());
+        teacher.setPhone(teacherDTO.getPhone());
+        teacherRepository.save(teacher);
     }
 }

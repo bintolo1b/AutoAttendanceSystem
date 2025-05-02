@@ -82,7 +82,7 @@ public class UserService {
         userRepository.save(newUser);
 
         for (String authorityItem : authorities) {
-            AuthorityId authorityId = AuthorityId.builder()
+                AuthorityId authorityId = AuthorityId.builder()
                     .username(registerDTO.getUsername())
                     .authority(authorityItem)
                     .build();

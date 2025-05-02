@@ -1,15 +1,21 @@
 server:
   port: 8080
+  ssl:
+    enabled: true
+    key-store: classpath:autoatt_ssl.p12
+    key-store-password: Trantai25022004
+    key-password: Trantai25022004
+    key-store-type: PKCS12
+    key-alias: autoatt_ssl
 
 spring:
   datasource:
+#    url: "jdbc:mysql://localhost:3307/auto_attendance_pbl5?createDatabaseIfNotExist=true"
     url: "jdbc:mysql://localhost:3306/auto_attendance_pbl5?createDatabaseIfNotExist=true"
-#    url: "jdbc:mysql://localhost:3306/auto_attendance_pbl5?createDatabaseIfNotExist=true"
-#    url: "jdbc:mysql://localhost:3306/auto_attendance_pbl5?createDatabaseIfNotExist=true"
     username: root
-#    password: Trantai25022004
+    password: Trantai25022004
 #    password: 110204
-    password: phong123
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:

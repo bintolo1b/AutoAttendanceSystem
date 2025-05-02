@@ -7,6 +7,8 @@ import com.pbl5.autoattendance.exception.ErrorCode;
 import com.pbl5.autoattendance.mapper.IStudentMapper;
 import com.pbl5.autoattendance.model.Student;
 import com.pbl5.autoattendance.repository.StudentRepository;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -45,5 +47,17 @@ public class StudentService {
         String name = authentication.getName();
         Student currentStudent = getStudentByUsername(name);
         return studentMapper.toStudentDTO(currentStudent);
+    }
+
+    public Student findStudentByEmail(String email) {
+        return studentRepository.findByEmail(email);
+    }
+
+    public void updateStudent(StudentDTO studentDTO, String username) {
+        Student student = getStudentByUsername(username);
+        student.setName(studentDTO.getName());
+        student.setEmail(studentDTO.getEmail());
+        student.setPhone(studentDTO.getPhone());
+        studentRepository.save(student);
     }
 }

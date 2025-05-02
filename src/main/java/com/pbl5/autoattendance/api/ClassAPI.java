@@ -2,6 +2,7 @@ package com.pbl5.autoattendance.api;
 
 import com.pbl5.autoattendance.dto.ClassDTO;
 import com.pbl5.autoattendance.dto.ClassWithLessonDTO;
+import com.pbl5.autoattendance.dto.LessonTimeRangeDTO;
 import com.pbl5.autoattendance.dto.StudentDTO;
 import com.pbl5.autoattendance.model.*;
 import com.pbl5.autoattendance.model.Class;
@@ -108,12 +109,22 @@ public class ClassAPI {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
+        // Kiểm tra thời gian bắt đầu và kết thúc của từng buổi học
+        try {
+            for (LessonTimeRangeDTO lessonTime : classWithLessonDTO.getSchedule().values()) {
+                lessonTime.validateTimeRange();
+            }
+        } catch (IllegalArgumentException e) {
+            Map<String, String> errors = new HashMap<>();
+            errors.put("message", e.getMessage());
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+
         if (classService.checkScheduleConflict(teacher, classWithLessonDTO)){
             Map<String, String> errors = new HashMap<>();
             errors.put("message", "Schedule conflict");
             return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
         }
-
 
         Class newClass = classService.createNewClass(classWithLessonDTO, teacher);
         List<Lesson> lessons = lessonService.createLessons(classWithLessonDTO.getSchedule(), newClass, newClass.getNumberOfWeeks());
