@@ -15,7 +15,9 @@ spring:
     username: root
     password: Trantai25022004
 #    password: 110204
-    password: 123456
+#    password: 123456
+#    password: phong123
+
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
