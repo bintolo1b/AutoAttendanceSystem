@@ -1,6 +1,7 @@
 package com.pbl5.autoattendance.api;
 
 import com.pbl5.autoattendance.dto.LessonDTO;
+import com.pbl5.autoattendance.dto.ScheduleDTO;
 import com.pbl5.autoattendance.model.Lesson;
 import com.pbl5.autoattendance.service.LessonService;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,6 +41,21 @@ public class LessonAPI {
         LessonDTO lessonDTO = convertToDTO(lesson);
         return ResponseEntity.ok(lessonDTO);
     }
+
+    @GetMapping("/schedule/{classId}")
+    public ResponseEntity<?> getLessonByClassId(@PathVariable Integer classId){
+        List<Lesson> lessons = lessonService.getLessonsByClassId(classId);
+        List<LessonDTO> lessonDTO = lessons.stream()
+                .map(this::convertToDTO)
+                .toList();
+        Set<DayOfWeek> seenDays = new HashSet<>();
+        List<ScheduleDTO> scheduleDTOS = lessonDTO.stream()
+                .map(this::convertToScheduleDTO)
+                .filter(dto -> seenDays.add(dto.getDayOfWeek()))
+                .sorted(Comparator.comparingInt(dto -> dto.getDayOfWeek().getValue()))
+                .toList();
+        return ResponseEntity.ok(scheduleDTOS);
+    }
     
     private LessonDTO convertToDTO(Lesson lesson) {
         LessonDTO dto = new LessonDTO();
@@ -47,5 +68,17 @@ public class LessonAPI {
         dto.setIsCompleted(lesson.getIsCompleted());
         dto.setNotes(lesson.getNotes());
         return dto;
+    }
+
+    private ScheduleDTO convertToScheduleDTO(LessonDTO lesson) {
+        ScheduleDTO dto = new ScheduleDTO();
+        dto.setDayOfWeek(convertDateToDayOfWeek(lesson.getLessonDate()));
+        dto.setStartTime(lesson.getStartTime());
+        dto.setEndTime(lesson.getEndTime());
+        return dto;
+    }
+
+    private DayOfWeek convertDateToDayOfWeek(LocalDate date){
+        return date.getDayOfWeek();
     }
 }
