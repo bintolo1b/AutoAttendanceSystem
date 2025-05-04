@@ -22,7 +22,7 @@ public class LessonService {
         this.lessonRepository = lessonRepository;
     }
 
-    public List<Lesson> getLessonsByClassId(Integer classId) {
+    public List<Lesson> getLessonsByClassIdBeforeDate(Integer classId) {
         return lessonRepository.findLessonBeforeDate(classId, LocalDate.now());
     }
 
@@ -72,5 +72,9 @@ public class LessonService {
         }
         
         return allLessons;
+    }
+
+    public List<Lesson> getLessonsByClassId(Integer classId) {
+        return lessonRepository.findByaClass_Id(classId);
     }
 }

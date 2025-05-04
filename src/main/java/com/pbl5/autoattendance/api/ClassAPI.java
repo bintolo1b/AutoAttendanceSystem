@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,6 +140,54 @@ public class ClassAPI {
         }
         ClassDTO classDTO = convertToDTO(aclass);
         return new ResponseEntity<>(classDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/{classId}/with-schedule")
+    public ResponseEntity<?> getClassWithLessonById(@PathVariable Integer classId) {
+        Class aclass = classService.getClassById(classId);
+        if (aclass == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        
+        // Get all lessons for this class
+        List<Lesson> allLessons = lessonService.getLessonsByClassId(classId);
+        System.out.println(allLessons.size());
+        if (allLessons.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        
+        // Sort lessons by date
+        allLessons.sort((l1, l2) -> l1.getLessonDate().compareTo(l2.getLessonDate()));
+        
+        // Get the first lesson date
+        LocalDate firstLessonDate = allLessons.get(0).getLessonDate();
+
+
+        
+        // Find all lessons in the first week
+        List<Lesson> firstWeekLessons = allLessons.stream()
+                .filter(lesson -> lesson.getLessonDate().isBefore(firstLessonDate.plusDays(7)))
+                .toList();
+
+        System.out.println(firstWeekLessons.size());
+
+        // Create schedule map from first week lessons
+        Map<String, LessonTimeRangeDTO> schedule = new HashMap<>();
+        for (Lesson lesson : firstWeekLessons) {
+            String dayOfWeek = lesson.getLessonDate().getDayOfWeek().toString();
+            LessonTimeRangeDTO timeRange = new LessonTimeRangeDTO();
+            timeRange.setStartTime(lesson.getStartTime());
+            timeRange.setEndTime(lesson.getEndTime());
+            schedule.put(dayOfWeek, timeRange);
+        }
+        
+        // Build ClassWithLessonDTO
+        ClassWithLessonDTO dto = new ClassWithLessonDTO();
+        dto.setName(aclass.getName());
+        dto.setNumberOfWeeks(aclass.getNumberOfWeeks());
+        dto.setSchedule(schedule);
+        
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
     
     private StudentDTO convertToStudentDTO(Student student) {
